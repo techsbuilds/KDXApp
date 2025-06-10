@@ -36,9 +36,11 @@ const InvoiceScreen = (): React.JSX.Element => {
         <CustomTextInput
           ref={customerNameRef}
           placeholder="Customer Name"
-          onChangeText={handleChange("customerName")}
+          value={values.customerName?.toUpperCase() ?? ""}
+          onChangeText={(text) => handleChange("customerName")(text.toUpperCase())}
           onBlur={() => setFieldTouched("customerName")}
           returnKeyType="next"
+          autoCapitalize="characters"
           error={errors.customerName ?? ""}
           touched={!!touched.customerName}
           onSubmitEditing={() => mobileNumberRef.current?.focus()}
@@ -88,7 +90,9 @@ const InvoiceScreen = (): React.JSX.Element => {
         <CustomTextInput
           ref={vehicleNameRef}
           placeholder="Vehicle Name"
-          onChangeText={handleChange("vehicleName")}
+          value={values.vehicleName?.toUpperCase() ?? ""}
+          onChangeText={(text) => handleChange("vehicleName")(text.toUpperCase())}
+          autoCapitalize="characters"
           onBlur={() => setFieldTouched("vehicleName")}
           returnKeyType="next"
           error={errors.vehicleName ?? ""}

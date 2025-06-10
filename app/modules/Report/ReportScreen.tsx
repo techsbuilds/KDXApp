@@ -472,7 +472,19 @@ const ReportScreen = (): React.JSX.Element => {
                                 marginTop: 5,
                               }}
                             >
-                              ALL: ₹ {item?.total_amount}
+                              Total Ammount: ₹ {item?.total_amount}
+                            </Text>
+                          )}
+                         {item?.pending_amount > 0 && item?.total_amount !== item?.pending_amount && (
+                            <Text
+                              style={{
+                                fontSize: 14,
+                                fontWeight: "bold",
+                                marginTop: 5,
+                                color: "green",
+                              }}
+                            >
+                              Paid: ₹ {item?.total_amount - item?.pending_amount}
                             </Text>
                           )}
                           {item?.pending_amount > 0 && (
@@ -583,7 +595,7 @@ const ReportScreen = (): React.JSX.Element => {
                 }}
               >
                 <Text
-                  style={{ fontSize: 16, fontWeight: "bold", color: "red",  }}
+                  style={{ fontSize: 16, fontWeight: "bold", color: "black",  }}
                 >
                   ₹{" "}
                   {`${

@@ -227,8 +227,8 @@ const htmlCon = `<html>
           )
           .join("")}
         <tr>
-          <td colspan="3" class="total">Bill Amount</td>
-          <td class="total">${totalDue}</td>
+          <td colspan="3" style="text-align: right; font-weight: bold;">Bill Amount</td>
+          <td style="font-weight: bold;">${totalDue}</td>
         </tr>
       </table>
     </div>
