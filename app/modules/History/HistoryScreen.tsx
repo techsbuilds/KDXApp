@@ -101,6 +101,41 @@ const HistoryScreen = (): React.JSX.Element => {
   const onHistoryItemPress = (item : any) => {
     navigation.navigate(Screens.InvoiceDetail , item)
   }
+
+    const formatVehicleNumber = (input: string) => {
+    let cleaned = input.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+    
+    let formatted = '';
+    if (cleaned.length > 0) {
+      formatted = cleaned.substring(0, 2);
+    }
+    if (cleaned.length > 2) {
+      formatted += ' ' + cleaned.substring(2, 4);
+    }
+    if (cleaned.length > 4) {
+      formatted += ' ' + cleaned.substring(4, 6);
+    }
+    if (cleaned.length > 6) {
+      formatted += ' ' + cleaned.substring(6, 10); 
+    }
+    
+    return formatted;
+  };
+    const handleVehicleNumberChange = (text: string) => {
+    const formatted = formatVehicleNumber(text);
+    setVehicleNo(formatted);
+  };
+
+   const formatIndianPhoneNumber = (number: string) => {
+  const cleaned = number.replace(/\D/g, '');
+  if (cleaned.startsWith('91') && cleaned.length === 12) {
+    const countryCode = '+91';
+    const mobile = cleaned.slice(2);
+    return `${countryCode} ${mobile}`;
+  }
+  return number;
+};
+
   return (
     <SafeAreaView style={styles.rootContainerStyle}>
       <ScrollView
@@ -121,7 +156,7 @@ const HistoryScreen = (): React.JSX.Element => {
           <CustomTextInput
             placeholder="Enter Vehicle No."
             value={vehicleNo}
-            onChangeText={setVehicleNo}
+            onChangeText={(tex) => handleVehicleNumberChange(tex)}
           />
         </View>
         <FlatList
@@ -158,7 +193,8 @@ const HistoryScreen = (): React.JSX.Element => {
                     resizeMode="contain"
                     />
                     <Text style={styles.labelStyle}>
-                      &nbsp;{item?.customer?.customer_mobile_no}
+                       {/* //  &nbsp;{item?.customer?.customer_mobile_no}*/}
+                              {formatIndianPhoneNumber(item?.customer?.customer_mobile_no)}
                     </Text>
                   </View>
                   <AppText style={{  fontSize: 16,color: "gray", marginTop: 5  }}>

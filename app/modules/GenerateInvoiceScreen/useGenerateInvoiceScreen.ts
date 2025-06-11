@@ -289,20 +289,32 @@ const htmlCon = `<html>
   };
 
   const generatePDF = async () => {
-      let options = {
-        html: htmlCon,
-        fileName: `Invoice_${Date.now()}`,
-        directory: "Documents",
-      };
-      let file = await RNHTMLtoPDF.convert(options);
-      const pdfFilePath = `file://${file?.filePath}`;
-      const option = {
-        url: pdfFilePath,
-        type: "application/pdf",
-      };
+    { /*  // let options = {
+      //   html: htmlCon,
+      //   fileName: `Invoice_${Date.now()}`,
+      //   directory: "Documents",
+      // };
+      // let file = await RNHTMLtoPDF.convert(options);
+      // const pdfFilePath = `file://${file?.filePath}`;
+      // const option = {
+      //   url: pdfFilePath,
+      //   type: "application/pdf",
+      // };
+      // await Share.open(option);*/}
+      const phoneNumber = data?.mobileNumber; // Change this to your target number
+      const message = 'Hello there';
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      
 
-      await Share.open(option);
-
+      Linking.canOpenURL(url)
+        .then((supported) => {
+          if (!supported) {
+            Alert.alert('Error', 'WhatsApp is not installed on your device');
+          } else {
+            return Linking.openURL(url);
+          }
+        })
+        .catch((err) => Alert.alert('Error', err.message));
       Toast.show({
         type: "success",
         text1: "Invoice saved",

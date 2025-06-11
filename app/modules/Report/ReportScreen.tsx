@@ -218,7 +218,8 @@ const ReportScreen = (): React.JSX.Element => {
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: error?.message ?? "Something went wrong!, try again",
+        text1: "Input Warning",
+        text2: "Total of paid and discount is greater then pending amount."
       });
       console.error("Error creating transaction:", JSON.stringify(error));
       throw error;
@@ -304,6 +305,41 @@ const ReportScreen = (): React.JSX.Element => {
     0
   );
 
+   const formatVehicleNumber = (input: string) => {
+    let cleaned = input.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+    
+    let formatted = '';
+    if (cleaned.length > 0) {
+      formatted = cleaned.substring(0, 2);
+    }
+    if (cleaned.length > 2) {
+      formatted += ' ' + cleaned.substring(2, 4);
+    }
+    if (cleaned.length > 4) {
+      formatted += ' ' + cleaned.substring(4, 6);
+    }
+    if (cleaned.length > 6) {
+      formatted += ' ' + cleaned.substring(6, 10); 
+    }
+    
+    return formatted;
+  };
+    const handleVehicleNumberChange = (text: string) => {
+    const formatted = formatVehicleNumber(text);
+    setVehicleNo(formatted);
+  };
+
+
+  const formatIndianPhoneNumber = (number: string) => {
+  const cleaned = number.replace(/\D/g, '');
+  if (cleaned.startsWith('91') && cleaned.length === 12) {
+    const countryCode = '+91';
+    const mobile = cleaned.slice(2);
+    return `${countryCode} ${mobile}`;
+  }
+  return number;
+};
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1, paddingHorizontal: 6 }} bounces={false}>
@@ -365,7 +401,7 @@ const ReportScreen = (): React.JSX.Element => {
             }}
             placeholder="Enter Vehicle No."
             value={vehicleNo}
-            onChangeText={setVehicleNo}
+            onChangeText={(tex) => handleVehicleNumberChange(tex)}
           />
         </View>
         <View style={{ marginHorizontal: 2 }}>
@@ -452,7 +488,8 @@ const ReportScreen = (): React.JSX.Element => {
                               resizeMode="contain"
                             />
                             <Text style={{ color: "#1E5BB8", marginLeft: 2 }}>
-                              {item?.customer?.customer_mobile_no}
+                             {/* // {item?.customer?.customer_mobile_no}*/}
+                              {formatIndianPhoneNumber(item?.customer?.customer_mobile_no)}
                             </Text>
                           </View>
                           <Text style={{ fontSize: 16,color: "gray", marginTop: 5  }}>
@@ -537,7 +574,8 @@ const ReportScreen = (): React.JSX.Element => {
                               resizeMode="contain"
                             />
                             <Text style={{ color: "#1E5BB8", marginLeft: 2 }}>
-                              {item?.customer?.customer_mobile_no}
+                               {/* // {item?.customer?.customer_mobile_no}*/}
+                              {formatIndianPhoneNumber(item?.customer?.customer_mobile_no)}
                             </Text>
                           </View>
                           <Text style={{ color: "gray", marginTop: 5 }}>
