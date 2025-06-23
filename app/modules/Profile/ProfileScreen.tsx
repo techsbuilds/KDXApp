@@ -79,15 +79,17 @@ const ProfileScreen = (): React.JSX.Element => {
       const userData = response.data?.data;
       dispatch(userActions.setCurrentUser(userData));
       
+      const profile = {
+        name: userData?.name ?? "",
+        contact: userData?.mobileno ?? "",
+        email: userData?.email ?? "",
+        company: userData?.company ?? "",
+        address: userData?.address ?? "",
+      };
+      setProfileData(profile);
+      setUpdatedProfile(profile);
+      setSelectedImage(userData?.profile_picture ?? null);
       // Update local state directly
-      setProfileData({
-        name: userData?.name,
-        contact: userData?.mobileno,
-        email: userData?.email,
-        company: userData?.company,
-        address: userData?.address,
-      });
-      setSelectedImage(userData?.profile_picture);
     }
   } catch (error) {
     console.log('error', error)
@@ -199,6 +201,7 @@ const ProfileScreen = (): React.JSX.Element => {
 
   const handleUpdateProfile = async () => {
     await updateProfileUser();
+    await fetchUserData(); // This updates both Redux and local UI
   };
 
   return (
@@ -336,7 +339,7 @@ const ProfileScreen = (): React.JSX.Element => {
             <TouchableOpacity
               onPress={() => {
                 setIsModalVisible(false)
-                fetchProfileData()
+                fetchUserData(); // This will now fetch fresh user data and update the state
               }}
               style={{ marginTop: 10 }}
             >

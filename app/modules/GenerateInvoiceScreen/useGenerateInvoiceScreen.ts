@@ -143,8 +143,8 @@ const htmlCon = `<html>
     <style>
       body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
       h1 { margin-bottom: 5px; }
-      .subheading { color: #555555; font-size: 12px; margin-bottom: 2px; }
-      .contact { color: #555555; font-size: 12px; }
+      .subheading { color: #555555; font-size: 16px; margin-bottom: 2px; }
+      .contact { color: #555555; font-size: 16px; }
       
       /* Wrap the entire invoice in a wider container */
       .invoice-container {
@@ -199,6 +199,7 @@ const htmlCon = `<html>
         <div class="invoice-header">
           <p><strong>Vehicle Info:</strong></p>
           <p>${data?.vehicleName}</p>
+          <p>${data?.km} <span>Km</span></p>
           <p>${data?.vehicleNumber}</p>
         </div>
         <div class="bill-to">
@@ -302,15 +303,23 @@ const htmlCon = `<html>
       // };
       // await Share.open(option);*/}
       const phoneNumber = data?.mobileNumber; // Change this to your target number
-      const message = 'Hello there';
-      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      // const message = 'Hello there';
+      // const url = `https://wa.me/${phoneNumber}?text=Hello%there`;
       
+      const url = `https://wa.me/${phoneNumber}`;
 
+      console.log("url::::", url);
+      
       Linking.canOpenURL(url)
         .then((supported) => {
+          console.log("supported::",supported);
+          
           if (!supported) {
-            Alert.alert('Error', 'WhatsApp is not installed on your device');
+            return Linking.openURL(url);
+            // Alert.alert('Error', 'WhatsApp is not installed on your device');
           } else {
+            console.log("----- supported ----", supported, url);
+            
             return Linking.openURL(url);
           }
         })
