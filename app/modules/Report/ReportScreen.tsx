@@ -500,44 +500,33 @@ const ReportScreen = (): React.JSX.Element => {
                             {formatDateWithTimezone(item?.createdAt as any)}
                           </Text>
                         </View>
-                        <View>
-                          {selectedTab === "ALL" && (
-                            <Text
-                              style={{
-                                fontSize: 14,
-                                fontWeight: "bold",
-                                marginTop: 5,
-                              }}
-                            >
-                              Total Ammount: ₹ {item?.total_amount}
-                            </Text>
-                          )}
-                         {item?.pending_amount > 0 && item?.total_amount !== item?.pending_amount && (
-                            <Text
-                              style={{
-                                fontSize: 14,
-                                fontWeight: "bold",
-                                marginTop: 5,
-                                color: "green",
-                              }}
-                            >
-                              Paid: ₹ {item?.total_amount - item?.pending_amount}
-                            </Text>
-                          )}
-                          {item?.pending_amount > 0 && (
-                            <Text
-                              style={{
-                                fontSize: 14,
-                                color: "red",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {selectedTab === "OUTSTANDING"
-                                ? `₹ ${item?.pending_amount}`
-                                : `OUTSTANDING: ₹ ${item?.pending_amount}`}
-                            </Text>
-                          )}
-                        </View>
+                        <View style={{ 
+  display: 'flex', 
+  flexDirection: 'column', 
+  alignItems: 'flex-end',  // 👈 ensures content starts from the left
+  padding: 8
+}}>
+  {selectedTab === "ALL" && (
+    <Text style={{ fontSize: 14, fontWeight: "bold", marginTop: 5 }}>
+      Total Amount: ₹ {item?.total_amount}
+    </Text>
+  )}
+  
+  {item?.pending_amount > 0 && item?.total_amount !== item?.pending_amount && (
+    <Text style={{ fontSize: 14, fontWeight: "bold", marginTop: 5, color: "green" }}>
+      Paid: ₹ {item?.total_amount - item?.pending_amount}
+    </Text>
+  )}
+  
+  {item?.pending_amount > 0 && (
+    <Text style={{ fontSize: 14, color: "red", fontWeight: "bold" }}>
+      {selectedTab === "OUTSTANDING"
+        ? `₹ ${item?.pending_amount}`
+        : `OUTSTANDING: ₹ ${item?.pending_amount}`}
+    </Text>
+  )}
+</View>
+
                       </Pressable>
                     );
                   } else {
